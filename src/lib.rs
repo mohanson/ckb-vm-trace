@@ -224,11 +224,19 @@ impl<
         self.tree_node.borrow_mut().cycles += cycles;
     }
 
-    fn on_exit(&mut self, _machine: &mut ckb_vm::machine::DefaultMachine<'a, Inner>) {
+    fn on_exit(&mut self, machine: &mut ckb_vm::machine::DefaultMachine<'a, Inner>) {
         // assert_eq!(machine.exit_code(), 0);
         self.tree_node
             .borrow()
-            .display_callstack(&mut std::io::stdout())
+            .display_callstack(&mut std::io::stdout());
+
+        let link = machine.pc().to_u64();
+        let loc = self.atsl_context.find_location(link).unwrap();
+        let loc_string = sprint_loc_file_line(&loc);
+        let frame_iter = self.atsl_context.find_frames(link).unwrap();
+        let fun_string = sprint_fun(frame_iter);
+        let tag_string = format!("{}:{}", loc_string, fun_string);
+        println!("Died at  : {}", tag_string);
     }
 }
 
