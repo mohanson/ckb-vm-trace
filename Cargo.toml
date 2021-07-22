@@ -1,5 +1,5 @@
 [package]
-name = "ckb-vm-pprof"
+name = "ckb-vm-trace"
 version = "0.1.0"
 authors = ["mohanson <mohanson@outlook.com>"]
 edition = "2018"
@@ -9,6 +9,5 @@ edition = "2018"
 [dependencies]
 addr2line = "0.13.0"
 ckb-vm = "0.20.0-rc1"
-clap = "2.33"
 memmap = "0.7"
 object = "0.20"
